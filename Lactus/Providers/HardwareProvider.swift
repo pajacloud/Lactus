@@ -145,11 +145,14 @@ final class HardwareProvider: SensorProvider {
     }
 
     private func archText(_ type: Int64, _ sub: Int64) -> String {
-        let is64 = type & Int64(CPU_ARCH_ABI64) != 0
-        let base = type & ~Int64(CPU_ARCH_ABI64)
-        guard base == Int64(CPU_TYPE_ARM) else { return "cputype \(type)" }
-        let subtype = sub & ~Int64(CPU_SUBTYPE_MASK)
-        if is64, subtype == Int64(CPU_SUBTYPE_ARM64E) { return "arm64e" }
+        // Hodnoty z <mach/machine.h>; makra s přetypováním Swift neimportuje, proto literály.
+        let abi64: Int64 = 0x0100_0000      // CPU_ARCH_ABI64
+        let cpuTypeARM: Int64 = 12          // CPU_TYPE_ARM
+        let subtypeMask: Int64 = 0xFF00_0000 // CPU_SUBTYPE_MASK
+        let subtypeARM64E: Int64 = 2        // CPU_SUBTYPE_ARM64E
+        let is64 = type & abi64 != 0
+        guard type & ~abi64 == cpuTypeARM else { return "cputype \(type)" }
+        if is64, sub & ~subtypeMask == subtypeARM64E { return "arm64e" }
         return is64 ? "arm64" : "arm"
     }
 

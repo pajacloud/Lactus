@@ -19,7 +19,7 @@ jobs:
 
       - name: Build for iPhone (unsigned)
         run: |
-          set -o pipefail
+          rc=0
           xcodebuild \
             -project Lactus.xcodeproj \
             -target Lactus \
@@ -29,8 +29,14 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
-            build 2>&1 | tee xcodebuild.log | grep -E "error:|warning:|BUILD (SUCCEEDED|FAILED)" || true
-          test -d build/Release-iphoneos/Lactus.app
+            build > xcodebuild.log 2>&1 || rc=$?
+          grep -E "error:|warning:|BUILD (SUCCEEDED|FAILED)" xcodebuild.log || true
+          if [ "$rc" -ne 0 ] || ! grep -q "BUILD SUCCEEDED" xcodebuild.log; then
+            echo "::error::xcodebuild failed (exit $rc)"
+            tail -n 80 xcodebuild.log
+            exit 1
+          fi
+          test -x build/Release-iphoneos/Lactus.app/Lactus
 
       - name: Package unsigned IPA
         run: |

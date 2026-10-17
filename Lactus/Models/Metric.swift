@@ -79,8 +79,9 @@ struct MetricSeries: Identifiable {
 /// Akce v sekci (tlačítko pro oprávnění, přepínač senzoru).
 struct MetricAction: Identifiable {
     enum Kind {
-        case button(@MainActor () -> Void)
-        case toggle(isOn: @MainActor () -> Bool, set: @MainActor (Bool) -> Void)
+        // Closury vznikají v @MainActor poskytovatelích a volá je jen UI na hlavním vlákně.
+        case button(() -> Void)
+        case toggle(isOn: () -> Bool, set: (Bool) -> Void)
     }
 
     let id: String

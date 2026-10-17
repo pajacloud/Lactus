@@ -9,6 +9,7 @@ struct LactusApp: App {
         WindowGroup {
             ContentView()
                 .environment(monitor)
+                .onAppear { monitor.start() }
         }
         .onChange(of: scenePhase) { _, phase in
             switch phase {

@@ -15,11 +15,12 @@ final class DisplayProvider: SensorProvider {
     private let probe = DisplayLinkProbe()
 
     /// Sledování senzoru přiblížení zhasíná displej, když ho něco zakryje. Proto je vypínatelné.
-    var proximityEnabled = false {
-        didSet {
-            UIDevice.current.isProximityMonitoringEnabled = proximityEnabled
-            refresh()
-        }
+    private(set) var proximityEnabled = false
+
+    func setProximity(_ enabled: Bool) {
+        proximityEnabled = enabled
+        UIDevice.current.isProximityMonitoringEnabled = enabled
+        refresh()
     }
 
     var actions: [MetricAction] {
@@ -28,7 +29,7 @@ final class DisplayProvider: SensorProvider {
             title: "Sledovat senzor přiblížení (zhasíná displej)",
             systemImage: "hand.raised",
             kind: .toggle(isOn: { [weak self] in self?.proximityEnabled ?? false },
-                          set: { [weak self] value in self?.proximityEnabled = value })
+                          set: { [weak self] value in self?.setProximity(value) })
         )]
     }
 

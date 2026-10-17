@@ -14,7 +14,7 @@ final class NetworkProvider: SensorProvider {
     private(set) var metrics: [Metric] = []
 
     private var monitor: NWPathMonitor?
-    private var path: NWPath?
+    private var path: Network.NWPath?
     private let telephony = CTTelephonyNetworkInfo()
     private let cellularData = CTCellularData()
     private var timer: Timer?
@@ -177,7 +177,7 @@ final class NetworkProvider: SensorProvider {
         return result.sorted { $0.interface < $1.interface }
     }
 
-    private func statusText(_ s: NWPath.Status) -> String {
+    private func statusText(_ s: Network.NWPath.Status) -> String {
         switch s {
         case .satisfied: return "Připojeno"
         case .unsatisfied: return "Bez připojení"
@@ -197,7 +197,7 @@ final class NetworkProvider: SensorProvider {
         }
     }
 
-    private func unsatisfiedText(_ r: NWPath.UnsatisfiedReason) -> String {
+    private func unsatisfiedText(_ r: Network.NWPath.UnsatisfiedReason) -> String {
         switch r {
         case .notAvailable: return "Síť není dostupná"
         case .cellularDenied: return "Mobilní data zakázána"
