@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSMotionUsageDescription</key>
+	<string>Lactus zobrazí kroky, aktivitu a absolutní výšku jen na obrazovce. Nic se neukládá ani neodesílá.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Lactus zobrazí údaje z GNSS (poloha, přesnost, výška, rychlost) jen na obrazovce. Nic se neukládá ani neodesílá.</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+</dict>
+</plist>

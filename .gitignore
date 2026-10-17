@@ -1,0 +1,10 @@
+# Xcode
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+DerivedData/
+build/
+.DS_Store
+*.swp
+# XcodeGen output lives in git on purpose (Lactus.xcodeproj), scratch only:
+*.orig
