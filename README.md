@@ -28,16 +28,30 @@ Cíl: iPhone 17 Pro, iOS 17 a novější, Xcode 16 a novější.
 
 Záložka **Neposkytuje** shrnuje celou šedou zónu na jednom místě s důvody.
 
-## Sestavení
+## Instalace na iPhone
 
-1. Otevři `Lactus.xcodeproj` v Xcode 16+.
-2. V targetu Lactus › Signing & Capabilities nastav svůj **Team** (bundle ID `cloud.paja.Lactus` případně změň).
-3. Připoj iPhone, povol na něm **Režim pro vývojáře** (Nastavení › Soukromí a zabezpečení), vyber ho jako cíl a spusť ⌘R.
-4. Při prvním spuštění potvrď na telefonu důvěru vývojářskému certifikátu (Nastavení › Obecné › VPN a správa zařízení).
+Každý push na GitHub spustí workflow **Build** na macOS runneru. Ten ověří, že se projekt přeloží, a přiloží artefakt `Lactus-unsigned-ipa`.
+
+### Varianta A: s Macem (doporučeno)
+
+1. Otevři `Lactus.xcodeproj` v Xcode 16 nebo novějším.
+2. V targetu Lactus › Signing & Capabilities vyber svůj **Team**. Stačí bezplatné Apple ID. Když Xcode hlásí obsazené bundle ID, změň `cloud.paja.Lactus` na cokoli vlastního.
+3. Na iPhonu zapni **Režim pro vývojáře** v Nastavení › Soukromí a zabezpečení a restartuj ho.
+4. Připoj iPhone kabelem, vyber ho nahoře jako cíl a dej ⌘R.
+5. Při prvním spuštění povol certifikát v Nastavení › Obecné › VPN a správa zařízení.
+
+S bezplatným Apple ID aplikace vyprší po 7 dnech; stačí ji z Xcode spustit znovu. S placeným Developer Programem platí rok.
+
+### Varianta B: bez Macu (Windows nebo Linux)
+
+1. Na GitHubu otevři Actions › Build › poslední zelený běh a stáhni artefakt `Lactus-unsigned-ipa`. Rozbal zip, uvnitř je `Lactus-unsigned.ipa`.
+2. Nainstaluj [Sideloadly](https://sideloadly.io) nebo [AltStore](https://altstore.io) na počítač.
+3. Připoj iPhone, přetáhni IPA do Sideloadly a přihlas se svým Apple ID. Nástroj aplikaci podepíše a nainstaluje.
+4. Na iPhonu zapni Režim pro vývojáře a povol certifikát jako ve variantě A.
+
+Platí stejný sedmidenní limit bezplatného Apple ID.
 
 Kdyby Xcode projekt odmítl otevřít, je přibalený `project.yml` pro [XcodeGen](https://github.com/yonaskolb/XcodeGen): `xcodegen generate`.
-
-> Kód vznikl v prostředí bez Xcode a Swift překladače, takže první kompilace proběhne až u tebe. Případné chyby budou drobné (přejmenované API, chybějící `import`), nic architektonického.
 
 ## Struktura
 
